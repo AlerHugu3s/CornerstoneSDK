@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
@@ -12,10 +13,10 @@ using namespace std;
 // 插件信息 请注意最后一行末尾是不能有多余逗号
 const char *Configuration = R"CFG(
 {
-    "插件名称": "CornerstoneSDK空壳插件",
-    "插件作者": "<这里填写作者名>",
+    "插件名称": "Shrimp QQ AI插件",
+    "插件作者": "AlerHuGhe$",
     "插件版本": "1.0.0",
-    "插件说明": "<这里填写插件说明>",
+    "插件说明": "爱咋咋地",
     "所需权限":
     {
         "输出日志": "<这里填写申请理由>",
@@ -125,6 +126,27 @@ EventProcessEnum OnPrivateMessage(PrivateMessageData data)
             ret = groups;
         }
     }
+	else if (content == "今日运势")
+	{
+		srand((int)time(NULL));
+		int luck = (rand() + data.MessageSendTime) % 100;
+		if (luck <= 5)
+		{
+			ret = "咚咚哒 "+ data.SourceEventQQName +"的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
+		}
+		else if (luck <= 50)
+		{
+			ret = data.SourceEventQQName + "的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
+		}
+		else if (luck < 95)
+		{
+			ret = data.SourceEventQQName + "的今日运势为:" + to_string(luck) + " 你还是人吗？";
+		}
+		else
+		{
+			ret = "啊这 啊这 "+data.SourceEventQQName + "的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
+		}
+	}
 
     // 判断有没有要回复的消息
     if (ret.empty())
@@ -163,12 +185,13 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
         return EventProcessEnum::Ignore;
     }
 
+	api->OutputLog("群聊消息");
     // 判断消息类型，只处理普通群聊信息
-    if (data.MessageType != MessageTypeEnum::GroupUsualMessage)
-    {
-        // 不处理其他消息
-        return EventProcessEnum::Ignore;
-    }
+    //if (data.MessageType != MessageTypeEnum::GroupUsualMessage)
+    //{
+    //    // 不处理其他消息
+    //    return EventProcessEnum::Ignore;
+    //}
 
     std::string content = data.MessageContent;
     // 判断消息内容
@@ -208,6 +231,30 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
             api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, members);
         }
     }
+	else if (content == "今日运势")
+	{
+		api->OutputLog("捕获到今日运势查询");
+		srand((int)time(NULL));
+		int luck = (rand() + data.SenderQQ) % 100;
+		string ret;
+		if (luck <= 5)
+		{
+			ret = "咚咚哒 " + data.SenderNickname + "的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
+		}
+		else if (luck <= 50)
+		{
+			ret = data.SenderNickname + "的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
+		}
+		else if (luck < 95)
+		{
+			ret = data.SenderNickname + "的今日运势为:" + to_string(luck) + " 你还是人吗？";
+		}
+		else
+		{
+			ret = "啊这 啊这 " + data.SenderNickname + "的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
+		}
+		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
+	}
     else
     {
         // 未处理过的消息
