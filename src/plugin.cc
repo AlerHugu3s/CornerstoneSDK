@@ -188,9 +188,9 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		return EventProcessEnum::Ignore;
 	}
 
-	api->OutputLog("群聊消息");
+	api->OutputLog(sum_string("群聊消息: ", (eint)data.MessageType));
 	// 判断消息类型，只处理普通群聊信息
-	if (data.MessageType != MessageTypeEnum::GroupUsualMessage)
+	if ((eint)data.MessageType != 82)
 	{
 		// 不处理其他消息
 		return EventProcessEnum::Ignore;
