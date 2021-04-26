@@ -242,7 +242,7 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		// 根据QQ号、群号、日期，产生随机数
 		time_t tt = time(NULL);
 		tm* t = localtime(&tt);
-		int seed = t->tm_mday * 88 + (data.SenderQQ / 1000 + data.SenderQQ % 10000) % 888 + data.MessageGroupQQ % 100 + t->tm_yday * 12 + t->tm_wday * 998;
+		int seed = t->tm_mday * 88 + (data.SenderQQ / 1000 + data.SenderQQ % 10000) % 888 + data.MessageGroupQQ % 100 + (int)t->tm_yday * 12 + (int)t->tm_wday * 998;
 		srand(seed);
 		int luck = rand() % 101;
 
