@@ -35,6 +35,8 @@ const char *Configuration = R"CFG(
 // 私聊消息事件
 EventProcessEnum OnPrivateMessage(PrivateMessageData data)
 {
+    return EventProcessEnum::Ignore;
+/*
     // 判断是否是长消息自动分片的片段内容（序列从0开始）
     if (data.MessageClipID > 0 && data.MessageClip + 1 != data.MessageClipCount)
     {
@@ -166,6 +168,7 @@ EventProcessEnum OnPrivateMessage(PrivateMessageData data)
 
     // 已经处理过的消息返回Block阻止其他插件继续处理
     return EventProcessEnum::Ignore;
+*/
 }
 
 // 群消息事件
@@ -187,14 +190,15 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 
 	api->OutputLog("群聊消息");
     // 判断消息类型，只处理普通群聊信息
-    //if (data.MessageType != MessageTypeEnum::GroupUsualMessage)
-    //{
-    //    // 不处理其他消息
-    //    return EventProcessEnum::Ignore;
-    //}
+    if (data.MessageType != MessageTypeEnum::GroupUsualMessage)
+    {
+        // 不处理其他消息
+        return EventProcessEnum::Ignore;
+    }
 
     std::string content = data.MessageContent;
     // 判断消息内容
+    /*
     if (content == "CornerstoneSDK测试")
     {
         api->OutputLog("群消息测试");
@@ -231,11 +235,17 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
             api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, members);
         }
     }
-	else if (content == "今日运势")
-	{
-		api->OutputLog("捕获到今日运势查询");
-		srand((int)time(NULL));
-		int luck = (rand() + data.SenderQQ) % 100;
+    */
+    if (content == "今日运势")
+    {
+        api->OutputLog("捕获到今日运势查询");
+        // 根据QQ号、群号、日期，产生随机数
+        time_t tt = time(NULL);
+        tm* t = localtime(&tt);
+        int seed = t->tm_mday * 88 + (data.SenderQQ / 1000 + data.SenderQQ % 10000) % 888 + data.MessageGroupQQ % 100 + t->tm_yday * 12 + t->tm_wday * 998;
+        srand(seed);
+		int luck = rand() % 101;
+
 		string ret;
 		if (luck <= 5)
 		{
