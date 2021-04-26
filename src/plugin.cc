@@ -128,8 +128,9 @@ EventProcessEnum OnPrivateMessage(PrivateMessageData data)
     }
 	else if (content == "今日运势")
 	{
-		srand((int)time(NULL));
-		int luck = (rand() + data.MessageSendTime) % 100;
+		time_t now = time(0);
+		tm* gmtm = gmtime(&now);
+		int luck = (gmtm->tm_year + gmtm->tm_mon + gmtm->tm_mday + data.SenderQQ) % 100;
 		if (luck <= 5)
 		{
 			ret = "咚咚哒 "+ data.SourceEventQQName +"的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
@@ -234,8 +235,9 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 	else if (content == "今日运势")
 	{
 		api->OutputLog("捕获到今日运势查询");
-		srand((int)time(NULL));
-		int luck = (rand() + data.SenderQQ) % 100;
+		time_t now = time(0);
+		tm* gmtm = gmtime(&now);
+		int luck = (gmtm->tm_year + gmtm->tm_mon + gmtm->tm_mday + data.SenderQQ) % 100;
 		string ret;
 		if (luck <= 5)
 		{
