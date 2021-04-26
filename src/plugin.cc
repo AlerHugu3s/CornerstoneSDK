@@ -30,6 +30,80 @@ const char *Configuration = R"CFG(
 }
 )CFG";
 
+const char* szName[22] =
+{
+	"愚者",
+	"魔法师",
+	"女祭司",
+	"女皇",
+	"皇帝",
+	"法皇",
+	"恋人",
+	"战车",
+	"力量",
+	"隐者",
+	"命运之轮",
+	"正义",
+	"倒吊者",
+	"死神",
+	"节制",
+	"恶魔",
+	"塔",
+	"星星",
+	"月",
+	"太阳",
+	"审判",
+	"世界"
+};
+
+const char* szDesc[44] =
+{
+	"无忧无虑、轻松愉快。古怪、与众不同。不成熟。出乎意料的。",
+	"奇特的习惯。精神错乱，胡言乱语。疯狂、发怒。狂喜、醉。",
+	"自愿、乐意。自治、独立。技术、熟练。精明、灵敏。外交、交际。",
+	"说谎。攀权附贵。诡计、谋略、耍花招。",
+	"学习、研究。直觉。秘密。信念、信赖。神秘。",
+	"无知。偏见。歇斯底里。",
+	"肥沃、多产。理解。交换意见。帮助、分享。怀孕。",
+	"愚蠢。不孕。轻薄、无趣。",
+	"稳定、安定。力量。权力。守护、保卫。",
+	"注视着伟大的事物。傲慢、自大。敌对、反抗。",
+	"灵感。慈悲、仁爱。慰藉、援助、解救。有耐心。依循传统。",
+	"仇恨、憎恨。无法宽容。不道德、邪恶。",
+	"选择。企图、尝试。检查、调查。缔结，婚约、订约。合并、结合、合而为一。",
+	"不守誓约、通奸、外遇。分离。优柔寡断。",
+	"胜利。经营的技能。公众人物、大众认可。",
+	"失败。无能。失误。",
+	"活力、能量。道德勇气。棘手的工作、强健的工作。勇敢。",
+	"怠惰、懒散。冲动。虚弱、软弱。",
+	"谨慎、慎重。沉思、冥想。孤独、隐居。寂静、无声。",
+	"顾影自怜。妒忌。拖延，延迟，耽搁。",
+	"轮流、交替。大自然的循环。改变。好机会。",
+	"不稳定。失去优势。",
+	"冷静、明智。法律。逻辑、有道理的。划分阶级。",
+	"不公平、失去正义。法律问题。混乱、没有秩序。",
+	"牺牲、奉献。理想化、理想主义。有利他人的行为、利他主义。对神秘事物的狂热份子",
+	"无能。生病。",
+	"结束。突然的且激烈的改变。开始。",
+	"危险的阻碍，令人担心的难关。逆境。",
+	"温和、适度。适应、通融。足够的休息、有益健康的休养。关心。",
+	"焦虑、挂念。不舒服、不愿意。",
+	"本能、天性。魅力、吸引力。感官享受、好色。暗示。",
+	"堕落，曲解。不安、烦乱。憎恨、讨厌。",
+	"逃避、避免。仓促的起程。流放、流亡。粉碎必然的事物、打破习惯传统。危险。",
+	"事故、灾难。毁灭。混乱。",
+	"希望。明显的指引。新的想法。和平、和睦。",
+	"不幸的征召。辞职，放弃。",
+	"梦。幻觉。冒险。不可思议的遭遇。旅行。",
+	"危险。邪恶。谎言。",
+	"同意、一致。友善、友谊。爱。荣誉。欢乐。",
+	"痛苦、不幸。利己主义、自我中心。易怒。",
+	"复活、回复、更新。生日，出生。觉醒。重新获得、恢复。",
+	"怀疑、不相信。悔恨、懊悔、遗憾。生病。",
+	"报答、奖赏、结果。完美。成功。继承、遗传、传统。时间、一段时光。",
+	"延期、拖延。迷惑、欺骗。失败。"
+};
+
 // 事件处理函数 请勿在函数中执行上传文件等耗时操作，此类操作请另开线程执行
 
 // 私聊消息事件
@@ -249,21 +323,38 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		string ret;
 		if (luck <= 5)
 		{
-			ret = "咚咚哒 " + data.SenderNickname + "的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
+			ret = "咚咚哒 [@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
 		}
 		else if (luck <= 50)
 		{
-			ret = data.SenderNickname + "的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
+			ret = "[@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
 		}
 		else if (luck < 95)
 		{
-			ret = data.SenderNickname + "的今日运势为:" + to_string(luck) + " 你还是人吗？";
+			ret = "[@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 你还是人吗？";
 		}
 		else
 		{
-			ret = "啊这 啊这 " + data.SenderNickname + "的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
+			ret = "啊这 啊这 [@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
 		}
 		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
+	}
+	else if (content.length() > 5 && content.substr(0, 6) == "占卜")
+	{
+		api->OutputLog("捕获到占卜查询");
+		string text = "";
+		if (content.length() > 6)
+			text = content.substr(6, content.length());
+			
+		// 根据时间、QQ号、群号产生随机数
+		srand((int)(time(0) + data.SenderQQ % 10 + data.MessageGroupQQ % 100));
+		int result = rand() % 22;
+		if (rand() % 2)
+			text = "[@" + to_string(data.SenderQQ) + "] 占卜 " + text + " \n" + szName[result] + " 正位：" + szDesc[result * 2];
+		else
+			text = "[@" + to_string(data.SenderQQ) + "] 占卜 " + text + " \n" + szName[result] + " 逆位：" + szDesc[result * 2 + 1];
+
+		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, text);
 	}
 	else
 	{
