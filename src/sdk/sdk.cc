@@ -28,7 +28,6 @@ SOFTWARE.
 */
 
 #include "sdk.h"
-
 #include <cstring>
 #include <unordered_set>
 // #include <type_traits>

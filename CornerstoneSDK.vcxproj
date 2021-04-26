@@ -45,13 +45,13 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)out\</OutDir>
     <IntDir>$(SolutionDir)build\</IntDir>
-    <TargetName>cornerstone_sdk_demo</TargetName>
+    <TargetName>ShrimpAI</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)out\</OutDir>
     <IntDir>$(SolutionDir)build\</IntDir>
-    <TargetName>cornerstone_sdk_demo</TargetName>
+    <TargetName>ShrimpAI</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -95,11 +95,14 @@
   <ItemGroup>
     <ClCompile Include="src\plugin.cc" />
     <ClCompile Include="src\sdk\api\api.cc" />
+    <ClCompile Include="src\sdk\custom\RussianRoulette.cpp" />
     <ClCompile Include="src\sdk\encoding\encoding.cc" />
     <ClCompile Include="src\sdk\sdk.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sdk\api\api.h" />
+    <ClInclude Include="src\sdk\custom\Game.h" />
+    <ClInclude Include="src\sdk\custom\RussianRoulette.h" />
     <ClInclude Include="src\sdk\encoding\encoding.h" />
     <ClInclude Include="src\sdk\eport\earray.h" />
     <ClInclude Include="src\sdk\eport\etypes.h" />
