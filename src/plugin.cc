@@ -110,139 +110,6 @@ const char* szDesc[44] =
 EventProcessEnum OnPrivateMessage(PrivateMessageData data)
 {
 	return EventProcessEnum::Ignore;
-/*
-	// 判断是否是长消息自动分片的片段内容（序列从0开始）
-	if (data.MessageClipID > 0 && data.MessageClip + 1 != data.MessageClipCount)
-	{
-		// 不处理长消息自动分片的片段内容
-		return EventProcessEnum::Ignore;
-	}
-
-	// 判断是否是自己发送的消息
-	if (data.ThisQQ == data.SenderQQ)
-	{
-		// 不处理自己发送的消息
-		return EventProcessEnum::Ignore;
-	}
-
-	// 判断消息类型，只处理群临时消息和好友普通消息
-	if (data.MessageType == MessageTypeEnum::FriendUsualMessage)
-	{
-		// 判断是否为普通消息，需要检查红包类型是否等于0
-		if (data.RedEnvelopeType != 0)
-		{
-			// 不处理其他消息
-			return EventProcessEnum::Ignore;
-		}
-	}
-	else if (data.MessageType == MessageTypeEnum::Temporary)
-	{
-		// 判断是否为群临时消息
-		if (data.MessageSubTemporaryType != MessageSubTypeEnum::Temporary_Group)
-		{
-			// 不处理其他消息
-			return EventProcessEnum::Ignore;
-		}
-	}
-	else
-	{
-		// 不处理其他消息
-		return EventProcessEnum::Ignore;
-	}
-
-	std::string content = data.MessageContent;
-	std::string ret;
-	// 判断消息内容
-	if (content == "CornerstoneSDK测试")
-	{
-		api->OutputLog("好友消息测试");
-		ret = "好友消息测试";
-	}
-	else if (content == "CornerstoneSDK测试获取好友列表")
-	{
-		vector<FriendInformation> friend_list;
-		// 获取好友列表
-		auto size = api->GetFriendList(data.ThisQQ, friend_list);
-		// 判断是否获取成功
-		if (size == 0)
-		{
-			api->OutputLog("好友列表获取失败: 返回的size为0");
-			ret = "好友列表获取失败: 返回的size为0";
-		}
-		else
-		{
-			api->OutputLog(sum_string("好友列表获取成功: 返回的size为", size));
-			string friends;
-			for (auto friend_info : friend_list)
-			{
-				friends += sum_string(friend_info.QQNumber, ": ", friend_info.Name, "\n");
-			}
-			ret = friends;
-		}
-	}
-	else if (content == "CornerstoneSDK测试获取群列表")
-	{
-		vector<GroupInformation> group_list;
-		// 获取群列表
-		auto size = api->GetGroupList(data.ThisQQ, group_list);
-		// 判断是否获取成功
-		if (size == 0)
-		{
-			api->OutputLog("群列表获取失败: 返回的size为0");
-			ret = "群列表获取失败: 返回的size为0";
-		}
-		else
-		{
-			api->OutputLog(sum_string("群列表获取成功: 返回的size为", size));
-			string groups;
-			for (auto group_info : group_list)
-			{
-				groups += sum_string(group_info.GroupQQ, ": ", group_info.GroupName, "\n");
-			}
-			ret = groups;
-		}
-	}
-	else if (content == "今日运势")
-	{
-		srand((int)time(NULL));
-		int luck = (rand() + data.MessageSendTime) % 100;
-		if (luck <= 5)
-		{
-			ret = "咚咚哒 "+ data.SourceEventQQName +"的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
-		}
-		else if (luck <= 50)
-		{
-			ret = data.SourceEventQQName + "的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
-		}
-		else if (luck < 95)
-		{
-			ret = data.SourceEventQQName + "的今日运势为:" + to_string(luck) + " 你还是人吗？";
-		}
-		else
-		{
-			ret = "啊这 啊这 "+data.SourceEventQQName + "的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
-		}
-	}
-
-	// 判断有没有要回复的消息
-	if (ret.empty())
-	{
-		return EventProcessEnum::Ignore;
-	}
-
-	// 根据不同的消息来源调用不同的发送信息函数
-	if (data.MessageType == MessageTypeEnum::FriendUsualMessage)
-	{
-		api->SendFriendMessage(data.ThisQQ, data.SenderQQ, ret);
-	}
-	else if (data.MessageType == MessageTypeEnum::Temporary)
-	{
-		api->SendGroupTemporaryMessage(data.ThisQQ, data.MessageGroupQQ, data.SenderQQ, ret);
-	}
-
-	// 已经处理过的消息返回Block阻止其他插件继续处理
-	return EventProcessEnum::Ignore;
-*/
 }
 
 // 群消息事件
@@ -271,45 +138,7 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 	}
 
 	std::string content = data.MessageContent;
-	// 判断消息内容
-	/*
-	if (content == "CornerstoneSDK测试")
-	{
-		api->OutputLog("群消息测试");
-		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, "群消息测试");
-		auto retcode = get_retcode(api->SendGroupTemporaryMessage(data.ThisQQ, data.MessageGroupQQ, data.SenderQQ, "临时消息测试"));
-		if (retcode != 0)
-		{
-			api->OutputLog(sum_string("临时消息发送失败: ", retcode));
-		}
-	}
-	else if (content == "CornerstoneSDK测试获取群成员列表")
-	{
-		vector<GroupMemberInformation> member_list;
-		// 获取群成员列表
-		auto size = api->GetGroupMemberList(data.ThisQQ, data.MessageGroupQQ, member_list);
-		// 判断是否获取成功
-		if (size == 0)
-		{
-			api->OutputLog("群成员列表获取失败: 返回的size为0");
-			api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, "群成员列表获取失败: 返回的size为0");
-		}
-		else
-		{
-			api->OutputLog(sum_string("群成员列表获取成功: 返回的size为", size));
-			string members;
-			// 最多只显示5个群成员
-			if (size > 5)
-				size = 5;
-			for (decltype(size) i = 0; i < size; i++)
-			{
-				auto member_info = member_list[i];
-				members += sum_string(member_info.QQNumber, ": ", member_info.Name, "\n");
-			}
-			api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, members);
-		}
-	}
-	*/
+
 	if (content == "今日运势")
 	{
 		api->OutputLog("捕获到今日运势查询");
@@ -435,19 +264,19 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 	}
 	else if (content == "开枪")
 	{
-	string ret;
+		string ret;
 
-	RussianRoulette* game = RussianRoulette::GetInstance();
-	RussianRoulette::ShotState state = game->Shot(data.SenderQQ);
+		RussianRoulette* game = RussianRoulette::GetInstance();
+		RussianRoulette::ShotState state = game->Shot(data.SenderQQ);
 
-	if (state == RussianRoulette::ShotState::empty)
-		ret ="弹匣已空，结束游戏！";
-	else if (state == RussianRoulette::ShotState::getShot)
-		ret = data.SenderNickname + "中弹了！哈哈哈哈哈哈";
-	else if (state == RussianRoulette::ShotState::notGetShot)
-		ret = data.SenderNickname + "居然没中弹，CNM!";
+		if (state == RussianRoulette::ShotState::empty)
+			ret ="弹匣已空，结束游戏！";
+		else if (state == RussianRoulette::ShotState::getShot)
+			ret = data.SenderNickname + "中弹了！哈哈哈哈哈哈";
+		else if (state == RussianRoulette::ShotState::notGetShot)
+			ret = data.SenderNickname + "居然没中弹，CNM!";
 
-	api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
+		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
 	}
 	else
 	{
