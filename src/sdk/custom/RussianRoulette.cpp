@@ -1,4 +1,4 @@
-#include "RussianRoulette.h"
+﻿#include "RussianRoulette.h"
 
 #include <algorithm>
 #include <random>
@@ -9,6 +9,7 @@ RussianRoulette::RussianRoulette()
 	: m_GameState(GameState::sleep)
 {
 	s_Instance = this;
+	m_maxPlayer = 0;
 	m_GameState = Game::GameState::sleep;
 }
 
@@ -53,18 +54,18 @@ bool RussianRoulette::Start()
 
 bool RussianRoulette::SetGameInfo(int maxPlayer,int maxSpace, int bullets)
 {
-	if (m_GameState == GameState::sleep && bullets < maxSpace)
+	if (m_GameState == GameState::sleep && bullets < maxSpace && maxPlayer > 0 && maxSpace > 0 && bullets > 0)
 	{
 		m_maxPlayer = maxPlayer;
-		for (size_t i = 0; i < bullets; i++)
+		for (int i = 0; i < bullets; i++)
 		{
 			m_Roulette.push_back(1);
 		}
-		for (size_t i = 0; i < maxSpace - bullets; i++)
+		for (int i = 0; i < maxSpace - bullets; i++)
 		{
 			m_Roulette.push_back(0);
 		}
-		if (m_Participants.empty()) return false;
+		
 		std::random_device rd;
 		std::shuffle(m_Roulette.begin(), m_Roulette.end(), std::default_random_engine(rd()));
 		return true;

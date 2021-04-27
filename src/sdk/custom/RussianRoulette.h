@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include "Game.h"
 
@@ -11,42 +11,42 @@ public:
 		empty,notParticipant,getShot,notGetShot
 	};
 	/**
-	 * @brief ¶íÂŞË¹×ªÅÌ³õÊ¼»¯
+	 * @brief ä¿„ç½—æ–¯è½¬ç›˜åˆå§‹åŒ–
 	 */
 	RussianRoulette();
 
 	/**
-	 * @brief ÔØÈë²å¼ş¹Ø¼ü×ÖºÍÏµÍ³APIº¯ÊıÖ¸Õë
-	 * @param api_data ÏµÍ³APIº¯ÊıÖ¸ÕëJSON
-	 * @param plugin_key ²å¼ş±êÊ¶·û
+	 * @brief è½½å…¥æ’ä»¶å…³é”®å­—å’Œç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆ
+	 * @param api_data ç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆJSON
+	 * @param plugin_key æ’ä»¶æ ‡è¯†ç¬¦
 	 */
 	~RussianRoulette() = default;
 
 	/**
-	 * @brief ÔØÈë²å¼ş¹Ø¼ü×ÖºÍÏµÍ³APIº¯ÊıÖ¸Õë
-	 * @param api_data ÏµÍ³APIº¯ÊıÖ¸ÕëJSON
-	 * @param plugin_key ²å¼ş±êÊ¶·û
+	 * @brief è½½å…¥æ’ä»¶å…³é”®å­—å’Œç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆ
+	 * @param api_data ç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆJSON
+	 * @param plugin_key æ’ä»¶æ ‡è¯†ç¬¦
 	 */
 	ParticipateState Join(elong participant) override;
 
 	/**
-	 * @brief ÔØÈë²å¼ş¹Ø¼ü×ÖºÍÏµÍ³APIº¯ÊıÖ¸Õë
-	 * @param api_data ÏµÍ³APIº¯ÊıÖ¸ÕëJSON
-	 * @param plugin_key ²å¼ş±êÊ¶·û
+	 * @brief è½½å…¥æ’ä»¶å…³é”®å­—å’Œç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆ
+	 * @param api_data ç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆJSON
+	 * @param plugin_key æ’ä»¶æ ‡è¯†ç¬¦
 	 */
 	QuitState Quit(elong participant) override;
 
 	/**
-	 * @brief ÔØÈë²å¼ş¹Ø¼ü×ÖºÍÏµÍ³APIº¯ÊıÖ¸Õë
-	 * @param api_data ÏµÍ³APIº¯ÊıÖ¸ÕëJSON
-	 * @param plugin_key ²å¼ş±êÊ¶·û
+	 * @brief è½½å…¥æ’ä»¶å…³é”®å­—å’Œç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆ
+	 * @param api_data ç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆJSON
+	 * @param plugin_key æ’ä»¶æ ‡è¯†ç¬¦
 	 */
 	bool Cancel() override;
 
 	/**
-	 * @brief ÔØÈë²å¼ş¹Ø¼ü×ÖºÍÏµÍ³APIº¯ÊıÖ¸Õë
-	 * @param api_data ÏµÍ³APIº¯ÊıÖ¸ÕëJSON
-	 * @param plugin_key ²å¼ş±êÊ¶·û
+	 * @brief è½½å…¥æ’ä»¶å…³é”®å­—å’Œç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆ
+	 * @param api_data ç³»ç»ŸAPIå‡½æ•°æŒ‡é’ˆJSON
+	 * @param plugin_key æ’ä»¶æ ‡è¯†ç¬¦
 	 */
 	bool Start() override;
 
@@ -58,7 +58,7 @@ public:
 private:
 	std::vector<elong> m_Participants;
 	std::vector<int> m_Roulette;
-	int m_maxPlayer;
+	unsigned int m_maxPlayer;
 	GameState m_GameState;
 
 	static RussianRoulette* s_Instance;

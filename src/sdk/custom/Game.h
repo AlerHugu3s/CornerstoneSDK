@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "../utils/types.h"
 
 class Game
@@ -18,29 +18,29 @@ public:
 	};
 
 	/**
-	 * @brief ³õÊ¼»¯ÓÎÏ·
+	 * @brief åˆå§‹åŒ–æ¸¸æˆ
 	 */
 	virtual ~Game() = default;
 
 	/**
-	 * @brief Íæ¼Ò¼ÓÈëÓÎÏ·
-	 * @param participant ²ÎÓëÕßQQºÅ
+	 * @brief ç©å®¶åŠ å…¥æ¸¸æˆ
+	 * @param participant å‚ä¸è€…QQå·
 	 */
 	virtual ParticipateState Join(elong participant) = 0;
 
 	/**
-	 * @brief Íæ¼ÒÍË³öÓÎÏ·
-	 * @param participant ÍË³öÕßQQºÅ
+	 * @brief ç©å®¶é€€å‡ºæ¸¸æˆ
+	 * @param participant é€€å‡ºè€…QQå·
 	 */
 	virtual QuitState Quit(elong participant) = 0;
 
 	/**
-	 * @brief ½áÊøÓÎÏ·
+	 * @brief ç»“æŸæ¸¸æˆ
 	 */
 	virtual bool Cancel() = 0;
 
 	/**
-	 * @brief ¿ªÊ¼ÓÎÏ·
+	 * @brief å¼€å§‹æ¸¸æˆ
 	 */
 	virtual bool Start() = 0;
 };
