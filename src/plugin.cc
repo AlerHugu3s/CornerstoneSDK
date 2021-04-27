@@ -104,6 +104,11 @@ const char* szDesc[44] =
 	"延期、拖延。迷惑、欺骗。失败。"
 };
 
+std::string AtUser(elong qqNumber)
+{
+	return "[@" + to_string(qqNumber) + "]";
+}
+
 // 事件处理函数 请勿在函数中执行上传文件等耗时操作，此类操作请另开线程执行
 
 // 私聊消息事件
@@ -152,19 +157,19 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		string ret;
 		if (luck <= 5)
 		{
-			ret = "咚咚哒 [@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
+			ret = "咚咚哒 " + AtUser(data.SenderQQ) + " 的今日运势为:" + to_string(luck) + " 哈哈哈哈哈哈哈";
 		}
 		else if (luck <= 50)
 		{
-			ret = "[@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
+			ret = AtUser(data.SenderQQ) + " 的今日运势为:" + to_string(luck) + " 你今天有一丶倒霉";
 		}
 		else if (luck < 95)
 		{
-			ret = "[@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 你还是人吗？";
+			ret = AtUser(data.SenderQQ) + " 的今日运势为:" + to_string(luck) + " 你还是人吗？";
 		}
 		else
 		{
-			ret = "啊这 啊这 [@" + to_string(data.SenderQQ) + "] 的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
+			ret = "啊这 啊这 " + AtUser(data.SenderQQ) + " 的今日运势为:" + to_string(luck) + " 🐂🍺嗷";
 		}
 		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
 	}
@@ -179,9 +184,9 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		srand((int)(time(0) + data.SenderQQ % 10 + data.MessageGroupQQ % 100));
 		int result = rand() % 22;
 		if (rand() % 2)
-			text = "[@" + to_string(data.SenderQQ) + "] 占卜 " + text + " \n" + szName[result] + " 正位：" + szDesc[result * 2];
+			text = AtUser(data.SenderQQ) + " 占卜 " + text + " \n" + szName[result] + " 正位：" + szDesc[result * 2];
 		else
-			text = "[@" + to_string(data.SenderQQ) + "] 占卜 " + text + " \n" + szName[result] + " 逆位：" + szDesc[result * 2 + 1];
+			text = AtUser(data.SenderQQ) + " 占卜 " + text + " \n" + szName[result] + " 逆位：" + szDesc[result * 2 + 1];
 
 		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, text);
 	}
@@ -214,11 +219,11 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		Game::ParticipateState state = game->Join(data.SenderQQ);
 
 		if (state == Game::ParticipateState::success)
-			ret = data.SenderNickname + "加入了游戏！";
+			ret = AtUser(data.SenderQQ) + "加入了游戏！";
 		else if (state == Game::ParticipateState::full)
-			ret = "游戏已满！" + data.SenderNickname + "加入失败！";
+			ret = "游戏已满！" + AtUser(data.SenderQQ) + "加入失败！";
 		else if (state == Game::ParticipateState::alreadyParticipate)
-			ret = data.SenderNickname + "已经加入过游戏！";
+			ret = AtUser(data.SenderQQ) + "已经加入过游戏！";
 
 		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
 	}
@@ -232,9 +237,9 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		Game::QuitState state = game->Quit(data.SenderQQ);
 
 		if (state == Game::QuitState::success)
-			ret = data.SenderNickname + "退出了游戏！";
+			ret = AtUser(data.SenderQQ) + "退出了游戏！";
 		else if (state == Game::QuitState::notParticipate)
-			ret = data.SenderNickname + "还没参加游戏！退出失败！";
+			ret = AtUser(data.SenderQQ) + "还没参加游戏！退出失败！";
 
 		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
 	}
@@ -272,9 +277,9 @@ EventProcessEnum OnGroupMessage(GroupMessageData data)
 		if (state == RussianRoulette::ShotState::empty)
 			ret ="弹匣已空，结束游戏！";
 		else if (state == RussianRoulette::ShotState::getShot)
-			ret = data.SenderNickname + "中弹了！哈哈哈哈哈哈";
+			ret = AtUser(data.SenderQQ) + "中弹了！哈哈哈哈哈哈";
 		else if (state == RussianRoulette::ShotState::notGetShot)
-			ret = data.SenderNickname + "居然没中弹，CNM!";
+			ret = AtUser(data.SenderQQ) + "居然没中弹，CNM!";
 
 		api->SendGroupMessage(data.ThisQQ, data.MessageGroupQQ, ret);
 	}
